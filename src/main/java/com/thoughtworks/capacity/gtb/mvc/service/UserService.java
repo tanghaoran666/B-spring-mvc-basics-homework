@@ -2,6 +2,8 @@ package com.thoughtworks.capacity.gtb.mvc.service;
 
 import com.thoughtworks.capacity.gtb.mvc.domain.User;
 import com.thoughtworks.capacity.gtb.mvc.entity.UserPo;
+import com.thoughtworks.capacity.gtb.mvc.exception.NotMatchException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -23,6 +25,10 @@ public class UserService {
     }
 
     public UserPo getUser(String username, String password) {
-        return userMap.get(username);
+        if (userPasswordMap.get(username) == password) {
+            return userMap.get(username);
+        }
+        throw new NotMatchException("username or password wrong");
+
     }
 }
