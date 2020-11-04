@@ -1,16 +1,28 @@
 package com.thoughtworks.capacity.gtb.mvc.service;
 
 import com.thoughtworks.capacity.gtb.mvc.domain.User;
+import com.thoughtworks.capacity.gtb.mvc.entity.UserPo;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class UserService {
-    List<User> users = new ArrayList<>();
+    Map<String, String> userPasswordMap = new HashMap<>();
+    Map<String, UserPo> userMap = new HashMap<>();
 
     public void register(User user) {
-        users.add(user);
+        UserPo userPo = UserPo.builder().email(user.getEmail())
+                .password(user.getPassword())
+                .username(user.getUsername())
+                .id(userMap.size() + 1)
+                .build();
+        userPasswordMap.put(user.getUsername(), user.getPassword());
+        userMap.put(user.getUsername(), userPo);
+    }
+
+    public UserPo getUser(String username, String password) {
+        return userMap.get(username);
     }
 }
