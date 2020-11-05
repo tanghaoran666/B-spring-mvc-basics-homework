@@ -6,8 +6,6 @@ import javax.validation.constraints.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Builder
 public class User {
     @NotNull(message = "username must not be null")

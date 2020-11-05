@@ -6,11 +6,15 @@ import com.thoughtworks.capacity.gtb.mvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @RestController
+@Validated
 public class UserController {
     @Autowired
     UserService userService;
@@ -21,10 +25,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    @ResponseBody
-    public UserPo getAllCars(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
-        return userService.getUser(username, password);
+
+    @GetMapping("/login")
+    public ResponseEntity<UserPo> login(@RequestParam @Pattern(regexp = "^[0-9a-zA-Z_]{1,}$", message = "username is illegal") @Size(min = 3, max = 10, message = "username is illegal") String username,
+                                        @RequestParam @Size(min = 5, max = 12, message = "password is illegal") String password) throws Exception {
+        UserPo userPo = userService.getUser(username, password);
+        return ResponseEntity.status(HttpStatus.OK).body(userPo);
     }
 
 

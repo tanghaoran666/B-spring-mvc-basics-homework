@@ -27,10 +27,11 @@ public class UserService {
     }
 
     public UserPo getUser(String username, String password) {
-        if (userPasswordMap.get(username) == password) {
+        if (!userMap.containsKey(username) || !userPasswordMap.get(username).equals(password)) {
+            throw new NotMatchException("username or password wrong");
+        } else {
             return userMap.get(username);
         }
-        throw new NotMatchException("username or password wrong");
 
     }
 }
