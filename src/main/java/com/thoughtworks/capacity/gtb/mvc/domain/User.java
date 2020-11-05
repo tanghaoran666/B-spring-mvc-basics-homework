@@ -1,6 +1,4 @@
 package com.thoughtworks.capacity.gtb.mvc.domain;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.validation.constraints.*;
@@ -12,14 +10,15 @@ import javax.validation.constraints.*;
 @Setter
 @Builder
 public class User {
-    @NotNull
-    @Size(min = 3, max = 10)
+    @NotNull(message = "username must not be null")
+    @Size(min = 3, max = 10, message = "the username is illegal")
+    @Pattern(regexp = "^[0-9a-zA-Z_]{1,}$", message = "the username is illegal")
     private String username;
-    @NotNull
-    @Size(min = 5, max = 12)
+    @NotNull(message = "password must not be null")
+    @Size(min = 5, max = 12, message = "the password is illegal")
     private String password;
-    @Email
+    @Email(message = "the email is illegal")
     private String email;
-//    @Pattern(regexp = "1\\d{10}")
+//
 
 }
